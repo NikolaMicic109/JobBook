@@ -6,6 +6,7 @@ import AdminPage from "../../pages/AdminPage/AdminPage";
 import Wizard from "../../pages/Wizard/Wizard";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { TokenProvider } from "../../context";
 
 const App = () => {
   const [candidates, setCandidates] = useState([]);
@@ -26,10 +27,11 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    <TokenProvider value={setToken}>
+<div className="App">
       <Switch>
         <Route exact path="/">
-          <Candidates setToken={setToken} candidates={candidates}></Candidates>
+          <Candidates candidates={candidates}></Candidates>
         </Route>
         <Route
           path="/report/:id"
@@ -38,17 +40,17 @@ const App = () => {
               {...r}
               candidates={candidates}
               reports={reports}
-              setToken={setToken}
+              
             />
           )}
         ></Route>
         <Route path="/login">
-          {token ? <Redirect to="/adminPage" /> : <Login setToken={setToken} />}
+          {token ? <Redirect to="/adminPage" /> : <Login />}
         </Route>
         <Route path="/adminPage">
           {token ? (
             <AdminPage
-              setToken={setToken}
+              
               reports={reports}
               setReports={setReports}
             />
@@ -62,7 +64,7 @@ const App = () => {
               reports={reports}
               setReports={setReports}
               candidates={candidates}
-              setToken={setToken}
+              
             />
           ) : (
             <Redirect to="/" />
@@ -70,6 +72,8 @@ const App = () => {
         </Route>
       </Switch>
     </div>
+    </TokenProvider>
+    
   );
 };
 export default App;

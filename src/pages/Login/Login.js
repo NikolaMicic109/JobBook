@@ -1,7 +1,12 @@
 import "./Login.scss";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-const Login = ({ setToken }) => {
+import { useState,useContext } from "react";
+import { tokenContext } from "../../context";
+
+const Login = () => {
+
+  const setToken = useContext(tokenContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
